@@ -1,0 +1,40 @@
+# Firewall correction: configuration acceptance passed
+
+> **Historical working note** from setting up and troubleshooting the Windows test VM. Instructions and anything labeled "current" or "next step" reflect the state on the note's date and are superseded. Current state: [project status](../project-status.md); overview: [setup history](README.md).
+
+**Latest finding, 2026-10-05:** the Allow correction stays passed: **MacAllowAddressReadback Passed / RuleChanged True**, both stores LocalAddress Any, source .1 / Ethernet0 / TCP 445 and the selected conditions preserved; DHCP guest address during the run .129/24 Preferred. The earlier administrative MMC view failed with "Unknown error", cause unknown. The user ran the rights export: **ExportExitCode 0**, file/size/UTF-16LE BOM checks passed. Then the parser stopped with **Expected exactly one Privilege Rights section**, before both target lines and **NetworkRightsExport Collected**. The actual section count was not printed; cause and both rights values remain unknown. Next step: run only [Read-LabNetworkRightsExport.ps1](../../scripts/windows/Read-LabNetworkRightsExport.ps1) in the guest according to the [rights guide](windows-network-logon-rights-step.md). This new diagnostic block has **not yet been run**. It only reads the existing INF and its log: section headers, selected possible rights lines and the end of the log. No new export, no file write, policy repair or logon. Do not repeat successful setups, diagnoses and setters. The Allow acceptance is no packet/WFP/authentication proof.
+
+Historical state of the repair acceptance: **2026-10-04**. The user ran the corrected [repair block](../../scripts/windows/Repair-LabFirewall.ps1) completely and without errors in the guest. **Configuration acceptance passed:** three unique rules in each store, all captured target values and finally **ConfigurationReadback : Passed**. The [application filter diagnosis](windows-application-filter-step.md) and the repair are complete; **do not repeat**.
+
+## Actual rule state after the repair, 2026-10-04
+
+| Check | PersistentStore | ActiveStore |
+| --- | --- | --- |
+| LabRuleCount | **3**, the three unique lab names | **3**, the three unique lab names |
+| SOC-Lab-SMB-Allow-Mac | Allow; local **192.168.243.128**, source **192.168.243.1** | same conditions |
+| SOC-Lab-SMB-Block-OtherIPv4 | Block; local **Any**; the two IPv4 source ranges | same conditions |
+| SOC-Lab-SMB-Block-IPv6 | Block; local **Any**; source **::2-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff** | same conditions |
+| PrimaryStatus | all three **OK** | all three **OK** |
+| EnforcementStatus | all three **NotApplicable** | all three **ProfileInactive,Enforced** |
+
+All six actual rule lines show Enabled True, Inbound, Profile Any, TCP, LocalPort 445, RemotePort Any, InterfaceAlias Ethernet0, Program/Service/InterfaceType Any, EdgeTraversalPolicy Block, Authentication/Encryption NotRequired and OverrideBlockRules False. The IPv4 source ranges are exactly `0.0.0.0-192.168.243.0` and `192.168.243.2-255.255.255.255`. For all six lines, AppPath, Package, PackageFamilyName and PolicyAppId each have CimType String and IsNull True. The helper that actually ran checked their existing original CIM properties before this projection. This also applies to the newly created IPv6 rule.
+
+The coding tool checked all six lines completely against the documented target values; an additional local evaluation of the supplied text found **no field deviation**, both counts 3 and the conclusion Passed. An independent review of the complete output also confirmed these values. This is an evaluation of the user's evidence and a configuration acceptance, not a packet/SMB/authentication test or Security event export. The raw text stays in the user's attachment and is not copied into project fixtures or event evidence.
+
+## What was corrected
+
+Before, both stores contained only the two IPv4 rules; the IPv4 block showed LocalAddress 0.0.0.0. This single value was not accepted as coverage of all local IPv4 addresses. The original IPv4 zero mask is invalid in the subnet definition. The scoped setter corrected only the LocalAddress of the own IPv4 block to **Any**; the remote ranges and other conditions were preserved. The Mac allow is unchanged. [IPv4 subnet definition](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fasp/ed0a65ec-d3b6-461c-a4ca-ecf08ed18025), [Set-NetFirewallRule / LocalAddress](https://learn.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallrule?view=windowsserver2025-ps#-localaddress)
+
+The missing IPv6 block was created with local **Any** and remote range **::2-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff** and read back exactly like that in both stores. Windows accepting this range has now actually been observed. It avoids the unsuitable /0 prefix and the invalid range endpoints :: and ::1. Those are unspecified and loopback respectively, not regular remote Ethernet0 SMB endpoints. IPv6 itself was not disabled. [IPv6 range definition](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fasp/fbf349cc-8455-490d-b97d-951c63084861), [New-NetFirewallRule / RemoteAddress](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2025-ps#-remoteaddress), [RFC 4291 §§2.5.2–2.5.3](https://www.rfc-editor.org/rfc/rfc4291.html#section-2.5.2)
+
+The previous repair versions failed on the NotApplicable numeric cast and on the mistaken Package=Any guard respectively, each before Set/New without a rule change. The later actual CIM diagnosis established present string/null properties; the corrected check preserves this distinction. The block that ran sets no optional Program/Package/Service/InterfaceType parameters on New; its actual defaults have now passed the readback. All NetSecurity calls use ErrorAction Stop explicitly. There is no delete, reset, profile, SMB, account or logon operation in the repair block.
+
+**ProfileInactive,Enforced** is consistent with Any-profile rules, an active Public profile and other inactive profiles. The actual status names are preserved and checked; the earlier assumption of a cmdlet value directly convertible to a number was wrong. Even now this metadata is no proof of packet behavior. [Official status definition](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fasp/4767a26e-0687-4c4f-ad94-8de700e5cf83)
+
+## Next step and limits
+
+**Keep the VM running**, on the existing host-only network. Do not run the completed repair block again: its pre-check expects the earlier two-rule state and would stop with the three rules that now exist.
+
+The user has since also created [the new empty probe folder and test share](windows-share-step.md) without errors: **ShareSetupReadback : Passed**, limited NTFS/SMB read rights for lab-auth01. Do not repeat. The separate address diagnosis and the subsequent Allow address correction are complete; the latter with MacAllowAddressReadback Passed / RuleChanged True. Next, only [read the existing rights export files in a targeted way](windows-network-logon-rights-step.md). Do not repeat the diagnosis, the setter or the old full repair. The previous collection block has since supplied partial findings; its results and the remaining rights/attempt prerequisites are in the [pilot guide](windows-pilot-prerequisites.md). The own Pro license is confirmed by the user; technically Notification / status 5 is observed. An actually observed IPv4 pilot and genuine 4624/4625 required fields remain pending.
+
+The coding tool has no Windows PowerShell runtime here. The successful run of the repair comes from the user; the entire configuration was checked in the text. The acceptance covers the selected rules and filters, not a complete WFP/IPsec/third-party access proof. Python detection logic, schema, XML inspector, fixtures and export script are unchanged; their tests were not repeated. Splunk, native Security event export and adapter remain pending. No AI author fields, commit trailers or Git identity changes.

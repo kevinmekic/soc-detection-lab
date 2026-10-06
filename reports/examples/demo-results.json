@@ -1,0 +1,256 @@
+{
+  "rule": {
+    "id": "repeated-failed-logons-then-success",
+    "version": "1.0",
+    "parameters": {
+      "threshold": 5,
+      "window_seconds": 300,
+      "logon_types": [
+        3,
+        10
+      ]
+    }
+  },
+  "input": {
+    "path": "data/fixtures/events.jsonl",
+    "sha256": "bb9afcdde3c036a125edeb99c92d59fc7d2a1948c358db7f93d16c50623b348d",
+    "data_origins": [
+      "synthetic"
+    ]
+  },
+  "counts": {
+    "input_lines": 24,
+    "processed": 23,
+    "duplicates": 1,
+    "excluded": 0,
+    "errors": 0
+  },
+  "issues": [
+    {
+      "kind": "duplicate",
+      "event_uid": "demo-001",
+      "provenance": {
+        "input_file": "data/fixtures/events.jsonl",
+        "line": 15
+      },
+      "first_provenance": {
+        "input_file": "data/fixtures/events.jsonl",
+        "line": 11
+      },
+      "reason": "identical normalized event ignored"
+    }
+  ],
+  "excluded_events": [],
+  "alerts": [
+    {
+      "alert_id": "c0a6ec57dff9aee313b2243a7ac4a4dee6d5036ef86bf850254ebdb60451e652",
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst01",
+        "source_ip": "192.0.2.10",
+        "destination_host": "lab-server-01",
+        "logon_type": 3
+      },
+      "failure_count": 5,
+      "failures": [
+        {
+          "event_uid": "demo-001",
+          "timestamp": "2026-01-15T09:00:00.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 11
+          }
+        },
+        {
+          "event_uid": "demo-002",
+          "timestamp": "2026-01-15T09:00:20.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 16
+          }
+        },
+        {
+          "event_uid": "demo-003",
+          "timestamp": "2026-01-15T09:00:50.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 18
+          }
+        },
+        {
+          "event_uid": "demo-004",
+          "timestamp": "2026-01-15T09:01:30.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 20
+          }
+        },
+        {
+          "event_uid": "demo-005",
+          "timestamp": "2026-01-15T09:02:30.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 21
+          }
+        }
+      ],
+      "success": {
+        "event_uid": "demo-006",
+        "timestamp": "2026-01-15T09:03:00.000000Z",
+        "provenance": {
+          "input_file": "data/fixtures/events.jsonl",
+          "line": 7
+        }
+      },
+      "pattern_start": "2026-01-15T09:00:00.000000Z",
+      "pattern_end": "2026-01-15T09:03:00.000000Z",
+      "priority": "medium",
+      "rationale": "5 matching failures in [2026-01-15T08:58:00.000000Z, 2026-01-15T09:03:00.000000Z) precede this success; this pattern warrants triage but does not prove compromise.",
+      "open_questions": [
+        "Was this activity expected and authorized?",
+        "Were stored credentials recently changed?",
+        "What do endpoint, authentication and change records show?"
+      ]
+    },
+    {
+      "alert_id": "f463f23efe71bdff826b94ebc97b7e8328768f81405f14adb40e5558fbb06f48",
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst02",
+        "source_ip": "192.0.2.20",
+        "destination_host": "lab-server-02",
+        "logon_type": 3
+      },
+      "failure_count": 5,
+      "failures": [
+        {
+          "event_uid": "demo-007",
+          "timestamp": "2026-01-15T09:10:00.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 6
+          }
+        },
+        {
+          "event_uid": "demo-008",
+          "timestamp": "2026-01-15T09:10:20.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 23
+          }
+        },
+        {
+          "event_uid": "demo-009",
+          "timestamp": "2026-01-15T09:11:00.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 24
+          }
+        },
+        {
+          "event_uid": "demo-010",
+          "timestamp": "2026-01-15T09:11:40.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 10
+          }
+        },
+        {
+          "event_uid": "demo-011",
+          "timestamp": "2026-01-15T09:12:20.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 3
+          }
+        }
+      ],
+      "success": {
+        "event_uid": "demo-012",
+        "timestamp": "2026-01-15T09:13:00.000000Z",
+        "provenance": {
+          "input_file": "data/fixtures/events.jsonl",
+          "line": 8
+        }
+      },
+      "pattern_start": "2026-01-15T09:10:00.000000Z",
+      "pattern_end": "2026-01-15T09:13:00.000000Z",
+      "priority": "medium",
+      "rationale": "5 matching failures in [2026-01-15T09:08:00.000000Z, 2026-01-15T09:13:00.000000Z) precede this success; this pattern warrants triage but does not prove compromise.",
+      "open_questions": [
+        "Was this activity expected and authorized?",
+        "Were stored credentials recently changed?",
+        "What do endpoint, authentication and change records show?"
+      ]
+    },
+    {
+      "alert_id": "f0925d7deacacbd14a5c6c34fdb42031e13d0c034bd978b48773fb9faad61afd",
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst03",
+        "source_ip": "198.51.100.30",
+        "destination_host": "lab-server-03",
+        "logon_type": 10
+      },
+      "failure_count": 5,
+      "failures": [
+        {
+          "event_uid": "demo-013",
+          "timestamp": "2026-01-15T09:20:00.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 12
+          }
+        },
+        {
+          "event_uid": "demo-014",
+          "timestamp": "2026-01-15T09:20:15.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 17
+          }
+        },
+        {
+          "event_uid": "demo-015",
+          "timestamp": "2026-01-15T09:20:45.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 9
+          }
+        },
+        {
+          "event_uid": "demo-016",
+          "timestamp": "2026-01-15T09:21:15.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 14
+          }
+        },
+        {
+          "event_uid": "demo-017",
+          "timestamp": "2026-01-15T09:21:45.000000Z",
+          "provenance": {
+            "input_file": "data/fixtures/events.jsonl",
+            "line": 2
+          }
+        }
+      ],
+      "success": {
+        "event_uid": "demo-018",
+        "timestamp": "2026-01-15T09:22:00.000000Z",
+        "provenance": {
+          "input_file": "data/fixtures/events.jsonl",
+          "line": 19
+        }
+      },
+      "pattern_start": "2026-01-15T09:20:00.000000Z",
+      "pattern_end": "2026-01-15T09:22:00.000000Z",
+      "priority": "medium",
+      "rationale": "5 matching failures in [2026-01-15T09:17:00.000000Z, 2026-01-15T09:22:00.000000Z) precede this success; this pattern warrants triage but does not prove compromise.",
+      "open_questions": [
+        "Was this activity expected and authorized?",
+        "Were stored credentials recently changed?",
+        "What do endpoint, authentication and change records show?"
+      ]
+    }
+  ]
+}

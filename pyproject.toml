@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soc-detection-lab"
+version = "0.1.0"
+description = "Offline, evidence-based Windows logon pattern analysis using synthetic lab data"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+soc-detection-lab = "soc_detection_lab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "queries/splunk/test_compare_results.py"]
+addopts = "-ra"

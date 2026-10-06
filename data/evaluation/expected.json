@@ -1,0 +1,39 @@
+{
+  "description": "Hand-derived independent examples: exact lower boundary, equal timestamp exclusion, repeated success, mixed keys, and a four-failure negative. Labels never enter detection.",
+  "expected_alerts": [
+    {
+      "success_uid": "eval-008",
+      "failure_uids": [
+        "eval-001",
+        "eval-003",
+        "eval-004",
+        "eval-005",
+        "eval-006"
+      ],
+      "key": {
+        "target_domain": "lab-eval",
+        "target_user": "auditor07",
+        "source_ip": "203.0.113.17",
+        "destination_host": "lab-archive-01",
+        "logon_type": 10
+      }
+    },
+    {
+      "success_uid": "eval-009",
+      "failure_uids": [
+        "eval-003",
+        "eval-004",
+        "eval-005",
+        "eval-006",
+        "eval-007"
+      ],
+      "key": {
+        "target_domain": "lab-eval",
+        "target_user": "auditor07",
+        "source_ip": "203.0.113.17",
+        "destination_host": "lab-archive-01",
+        "logon_type": 10
+      }
+    }
+  ]
+}

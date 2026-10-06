@@ -1,0 +1,56 @@
+{
+  "description": "Manually derived rule matches; these do not label attacks.",
+  "expected_alerts": [
+    {
+      "success_uid": "demo-006",
+      "failure_uids": [
+        "demo-001",
+        "demo-002",
+        "demo-003",
+        "demo-004",
+        "demo-005"
+      ],
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst01",
+        "source_ip": "192.0.2.10",
+        "destination_host": "lab-server-01",
+        "logon_type": 3
+      }
+    },
+    {
+      "success_uid": "demo-012",
+      "failure_uids": [
+        "demo-007",
+        "demo-008",
+        "demo-009",
+        "demo-010",
+        "demo-011"
+      ],
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst02",
+        "source_ip": "192.0.2.20",
+        "destination_host": "lab-server-02",
+        "logon_type": 3
+      }
+    },
+    {
+      "success_uid": "demo-018",
+      "failure_uids": [
+        "demo-013",
+        "demo-014",
+        "demo-015",
+        "demo-016",
+        "demo-017"
+      ],
+      "key": {
+        "target_domain": "lab",
+        "target_user": "analyst03",
+        "source_ip": "198.51.100.30",
+        "destination_host": "lab-server-03",
+        "logon_type": 10
+      }
+    }
+  ]
+}

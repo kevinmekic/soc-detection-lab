@@ -1,0 +1,33 @@
+index=soc_lab sourcetype="soc_lab:normalized:json" source="soc-lab-pilot-01"
+| spath path=event_uid output=event_uid
+| spath path=timestamp_epoch_us output=timestamp_epoch_us
+| spath path=candidate_alert_id output=candidate_alert_id
+| spath path=event_id output=event_id
+| spath path=target_domain output=target_domain
+| spath path=target_user output=target_user
+| spath path=source_ip output=source_ip
+| spath path=destination_host output=destination_host
+| spath path=logon_type output=logon_type
+| spath path=record_id output=record_id
+| spath path=timestamp_raw output=timestamp_raw
+| eval record_id_input=record_id, event_id=tonumber(event_id), logon_type=tonumber(logon_type), event_time_us=tonumber(timestamp_epoch_us), record_id=tonumber(record_id)
+| eval record_missing=if(isnull(record_id),1,0)
+| eval rule_id="repeated-failed-logons-then-success", rule_version="1.0", threshold=5, window_seconds=300, logon_types="3,10"
+| eval _time=event_time_us/1000000
+| eventstats count AS batch_rows dc(event_uid) AS unique_uids
+| eval invalid_row=if(isnull(event_uid) OR isnull(event_time_us) OR event_time_us<0 OR event_time_us>9007199254740991 OR event_time_us!=floor(event_time_us) OR (isnotnull(record_id_input) AND (isnull(record_id) OR record_id<1 OR record_id>9007199254740991 OR record_id!=floor(record_id))) OR isnull(target_domain) OR isnull(target_user) OR isnull(source_ip) OR isnull(destination_host) OR isnull(logon_type) OR (logon_type!=3 AND logon_type!=10) OR isnull(event_id) OR (event_id!=4624 AND event_id!=4625) OR (event_id=4624 AND isnull(candidate_alert_id)), 1, 0)
+| sort 0 +num(event_time_us), +num(record_missing), +num(record_id), +str(event_uid)
+| eval evidence_json=json_object("event_uid",event_uid,"timestamp_epoch_us",printf("%.0f",event_time_us),"record_id",if(isnull(record_id),null(),printf("%.0f",record_id)),"timestamp_raw",timestamp_raw)
+| eval failure_token=if(event_id=4625 AND invalid_row=0, printf("%020.0f",event_time_us).":".record_missing.":".printf("%020.0f",coalesce(record_id,0)).":".evidence_json, null())
+| eventstats values(failure_token) AS all_failure_tokens count(failure_token) AS all_failure_count BY target_domain target_user source_ip destination_host logon_type
+| eval row_error=if(invalid_row=1 OR isnull(batch_rows) OR batch_rows>1000 OR isnull(unique_uids) OR unique_uids!=batch_rows OR isnull(all_failure_count) OR coalesce(mvcount(all_failure_tokens),0)!=all_failure_count, 1, 0)
+| eventstats sum(row_error) AS batch_errors
+| eval failure_tokens=mvmap(all_failure_tokens, if(tonumber(substr(all_failure_tokens,1,20))>=event_time_us-window_seconds*1000000 AND (tonumber(substr(all_failure_tokens,1,20))<event_time_us OR (tonumber(substr(all_failure_tokens,1,20))=event_time_us AND record_missing=0 AND substr(all_failure_tokens,22,1)="0" AND tonumber(substr(all_failure_tokens,24,20))<record_id)), all_failure_tokens, null()))
+| eval failure_tokens=mvfilter(isnotnull(failure_tokens))
+| eval failure_count=coalesce(mvcount(failure_tokens),0)
+| eval result_status=case(isnull(batch_errors) OR batch_errors>0, "invalid-batch", event_id=4624 AND failure_count>=threshold, "alert", true(), "no-alert")
+| where result_status!="no-alert"
+| eval alert_id=if(result_status="alert",candidate_alert_id,null()), success_uid=event_uid, success_time_us=printf("%.0f",event_time_us), success_record_id=if(isnull(record_id),null(),printf("%.0f",record_id)), success_timestamp_raw=timestamp_raw
+| eval failure_evidence=mvmap(failure_tokens,substr(failure_tokens,45)), failure_times_us=mvmap(failure_tokens,printf("%.0f",tonumber(substr(failure_tokens,1,20))))
+| eval failure_uids=json_array_to_mv(json_extract("[".mvjoin(failure_evidence,",")."]","{}.event_uid"))
+| table result_status rule_id rule_version threshold window_seconds logon_types alert_id success_uid success_time_us success_record_id success_timestamp_raw target_domain target_user source_ip destination_host logon_type failure_count failure_uids failure_times_us failure_evidence

@@ -1,0 +1,17 @@
+index=soc_lab sourcetype="soc_lab:normalized:json" source="soc-lab-pilot-01"
+| eval indexed_time=_time
+| spath path=event_uid output=event_uid
+| spath path=timestamp output=timestamp
+| spath path=timestamp_epoch_us output=timestamp_epoch_us
+| spath path=record_id output=record_id
+| spath path=timestamp_raw output=timestamp_raw
+| spath path=event_id output=event_id
+| spath path=target_domain output=target_domain
+| spath path=target_user output=target_user
+| spath path=source_ip output=source_ip
+| spath path=destination_host output=destination_host
+| spath path=logon_type output=logon_type
+| spath path=data_origin output=data_origin
+| eval indexed_time_us=printf("%.0f",round(indexed_time*1000000)), parsed_time_us=printf("%.0f",round(strptime(replace(timestamp,"Z$","+0000"),"%Y-%m-%dT%H:%M:%S.%6N%z")*1000000))
+| sort 0 +num(timestamp_epoch_us), +num(record_id), +str(event_uid)
+| table event_uid timestamp timestamp_epoch_us indexed_time_us parsed_time_us record_id timestamp_raw event_id target_domain target_user source_ip destination_host logon_type data_origin

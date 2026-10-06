@@ -1,0 +1,41 @@
+{
+  "data_origin": "synthetic",
+  "expected_alerts": [
+    {
+      "success_uid": "windows-xml:19f5a55e0164432f236aeff28fa47054622cfd7150bf5377e9e38a24a7e71ebf",
+      "failure_uids": [
+        "windows-xml:7896a96e8cbbc910f547adda578d4844a327d258a9d14c662bb212f5e86dcdf9",
+        "windows-xml:de95085f3c5d21a86b14b268ccd928c07f24e03b9864b1feb1cb356b162f41dd",
+        "windows-xml:b9ae9a91ddc68ca2b3ab5462d221013d0a301dfa55afd4c86eb23ca58c259ed2",
+        "windows-xml:3b195e7e917cb0334a1e9b1b21260952be1b8acfdc642d6d7238f06de93f522e",
+        "windows-xml:677089cf509c4a3623ae228fb69f074d1229a7cd04ba309e371a2d90b12f2ace"
+      ],
+      "success_timestamp": "2026-04-08T12:00:00.999999Z",
+      "key": {
+        "target_domain": "lab-splunk-boundary",
+        "target_user": "tie-user",
+        "source_ip": "192.0.2.90",
+        "destination_host": "lab-splunk-boundary",
+        "logon_type": 3
+      }
+    },
+    {
+      "success_uid": "windows-xml:d4e2204072fe3ee0c20ba8fd4830496acb19e46cb06c6a37d8be09ce160e73f6",
+      "failure_uids": [
+        "windows-xml:e6eeb24669628938b40e12d0ff65737308ebf1bc5c0c6ac5c39f02b28fb1273f",
+        "windows-xml:6ca33819249e01302d62880234b3d27808c341337ddcd973b4c64624179f1c6e",
+        "windows-xml:b830a4a7504bf10f46083cc2d8b6007837c4d0df5b671ae2f5d2ab56ba3325aa",
+        "windows-xml:5f3fee86fd526ecdf95b397c62c2f53b7051aea9e3b22dee2240107c9d79a7a1",
+        "windows-xml:c3f17a961c7b796e01f97ba3a9bdab64c5841d2a7153a0ca49e4a6eb0857e670"
+      ],
+      "success_timestamp": "2026-04-08T12:05:00.123456Z",
+      "key": {
+        "target_domain": "lab-splunk-boundary",
+        "target_user": "boundary-user",
+        "source_ip": "192.0.2.90",
+        "destination_host": "lab-splunk-boundary",
+        "logon_type": 10
+      }
+    }
+  ]
+}

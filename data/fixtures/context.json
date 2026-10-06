@@ -1,0 +1,53 @@
+{
+  "data_origin": "synthetic",
+  "warning": "All context below is invented for this lab; no real contact, ticket, or endpoint evidence is claimed.",
+  "cases": [
+    {
+      "case_id": "SYN-001",
+      "success_uid": "demo-006",
+      "analyst_assessment": "suspicious",
+      "synthetic_context": [
+        "192.0.2.10 is assigned to LAB-CLIENT-01 in the fictional inventory.",
+        "The fictional lab access matrix does not assign LAB-CLIENT-01 to analyst01.",
+        "The fictional change calendar contains no scheduled activity matching this account, target, and time."
+      ],
+      "unavailable_evidence": [
+        "Actual user confirmation",
+        "Endpoint follow-up",
+        "Authenticated session actions"
+      ],
+      "alternative": "A legitimate user may have used another shared client with stale saved credentials."
+    },
+    {
+      "case_id": "SYN-002",
+      "success_uid": "demo-012",
+      "analyst_assessment": "legitimate",
+      "synthetic_context": [
+        "A fictional approved lab password rotation precedes the observed failures.",
+        "A scheduled network-drive reconnect uses stale saved credentials for analyst02.",
+        "In this fictional scenario the lab operator corrects the cached credentials before the success."
+      ],
+      "unavailable_evidence": [
+        "Real change ticket",
+        "Real operator contact",
+        "Actual endpoint capture"
+      ],
+      "alternative": "Without the supplied fictional context, unauthorized credential use cannot be excluded."
+    },
+    {
+      "case_id": "SYN-003",
+      "success_uid": "demo-018",
+      "analyst_assessment": "unresolved",
+      "synthetic_context": [
+        "No additional corroborating context was supplied for this scenario."
+      ],
+      "unavailable_evidence": [
+        "Source ownership",
+        "Authentication intent",
+        "Endpoint follow-up",
+        "Session actions"
+      ],
+      "alternative": "A permitted remote user may have mistyped or reused a stale password."
+    }
+  ]
+}

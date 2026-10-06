@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-authored synthetic adapter cases; not a Windows lab capture. -->
+<Events>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4625</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:00.9999999Z"/><EventRecordID>100</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="IpAddress">192.0.2.80</Data><Data Name="LogonType">3</Data><Data Name="Status">0xc000006d</Data><Data Name="SubStatus">0xc000006a</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4624</EventID><Version>2</Version><TimeCreated SystemTime="2026-04-08T12:00:02.123456Z"/><EventRecordID>101</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="IpAddress">192.0.2.80</Data><Data Name="LogonType">3</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4625</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:03Z"/><EventRecordID>102</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">remote-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="IpAddress">192.0.2.81</Data><Data Name="LogonType">10</Data><Data Name="Status">0xc000006d</Data><Data Name="SubStatus">0xc000006a</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4624</EventID><Version>2</Version><TimeCreated SystemTime="2026-04-08T12:00:04Z"/><EventRecordID>103</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">SYSTEM</Data><Data Name="TargetDomainName">NT AUTHORITY</Data><Data Name="IpAddress">-</Data><Data Name="LogonType">5</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4634</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:05Z"/><EventRecordID>104</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="IpAddress">192.0.2.80</Data><Data Name="LogonType">3</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Synthetic-Other-Provider"/><EventID>4625</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:06Z"/><EventRecordID>105</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="IpAddress">192.0.2.80</Data><Data Name="LogonType">3</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4625</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:07Z"/><EventRecordID>106</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="IpAddress">192.0.2.80</Data><Data Name="LogonType">3</Data></EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System><Provider Name="Microsoft-Windows-Security-Auditing"/><EventID>4625</EventID><Version>0</Version><TimeCreated SystemTime="2026-04-08T12:00:08Z"/><EventRecordID>107</EventRecordID><Channel>Security</Channel><Computer>LAB-SYNTH-ADAPTER</Computer></System>
+    <EventData><Data Name="TargetUserName">adapter-user</Data><Data Name="TargetDomainName">LAB-SYNTH-ADAPTER</Data><Data Name="LogonType">3</Data></EventData>
+  </Event>
+</Events>

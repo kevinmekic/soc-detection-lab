@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Synthetic structural fixture. No Windows capture or network experiment occurred. -->
+<Events>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4625</EventID>
+      <Version>0</Version>
+      <TimeCreated SystemTime="2026-04-08T12:00:00.123456000Z" />
+      <EventRecordID>10</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>LAB-DOC-SERVER</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">LAB-DOC-SERVER$</Data>
+      <Data Name="TargetUserName">doc-user</Data>
+      <Data Name="TargetDomainName">LAB-DOC-SERVER</Data>
+      <Data Name="IpAddress">192.0.2.70</Data>
+      <Data Name="LogonType">3</Data>
+      <Data Name="Status">0xc000006d</Data>
+      <Data Name="SubStatus">0xc000006a</Data>
+    </EventData>
+  </Event>
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" />
+      <EventID>4624</EventID>
+      <Version>2</Version>
+      <TimeCreated SystemTime="2026-04-08T12:00:30.123456000Z" />
+      <EventRecordID>11</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>LAB-DOC-SERVER</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">LAB-DOC-SERVER$</Data>
+      <Data Name="TargetUserName">doc-user</Data>
+      <Data Name="TargetDomainName">LAB-DOC-SERVER</Data>
+      <Data Name="IpAddress">192.0.2.70</Data>
+      <Data Name="LogonType">3</Data>
+    </EventData>
+  </Event>
+</Events>

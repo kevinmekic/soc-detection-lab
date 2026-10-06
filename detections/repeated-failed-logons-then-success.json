@@ -1,0 +1,30 @@
+{
+  "rule_id": "repeated-failed-logons-then-success",
+  "version": "1.0",
+  "name": "Repeated failed logons followed by a successful logon",
+  "status": "synthetic-lab",
+  "parameters": {
+    "threshold": 5,
+    "window_seconds": 300,
+    "logon_types": [3, 10]
+  },
+  "correlation_fields": [
+    "target_domain",
+    "target_user",
+    "source_ip",
+    "destination_host",
+    "logon_type"
+  ],
+  "failure_event_id": 4625,
+  "success_event_id": 4624,
+  "window": "For each eligible success at t, count eligible, deduplicated failures with the same key in [t-window_seconds, t).",
+  "previous_success_resets_failures": false,
+  "one_alert_per_qualifying_success": true,
+  "priority": "medium",
+  "interpretation": "A temporal authentication pattern requiring investigation; not proof of brute force or account compromise.",
+  "sources": [
+    "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624",
+    "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625"
+  ],
+  "threshold_origin": "Didactic design decision, not a Microsoft or Splunk recommendation."
+}
